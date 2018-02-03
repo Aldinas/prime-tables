@@ -15,43 +15,54 @@ class PrimeController extends Controller
 
     function PrimeGrid(Request $request)
     {
+      // User has submitted the form, validate it.
       $request->validate([
-        'numberOfPrimes' => 'integer'
+        'numberOfPrimes' => 'integer|min:1'
       ]);
 
-      // User has submitted the form, build the grid based on the provided argument.
-      $primes = $this->GetPrimes($request['numberOfPrimes']);
+      // Cache variables.
+      $numOfPrimes = $request['numberOfPrimes'];
+      $primeCount = 0;
+      $primes = [];
+
+
+      for($i = 2; $primeCount < $numOfPrimes; $i++)
+      {
+        if($this->IsPrime($i))
+          $primes[] = $i;
+
+        $primeCount = count($primes);
+      }
+
+      dd($primes);
 
       $data['primes'] = $primes;
 
-      return view("primegrid", $data);
+      return view("primegrid");
     }
 
-    function GetPrimes($numOfPrimes)
+    function IsPrime($number)
     {
-      $primes = [];
+      // Confirm if a number is a prime or not. Returns boolean.
+      // This shouldnt be possible, but adding a check for posterity.
+      if($number === 1)
+        return false;
+      // We know 2 is the only even prime, so catch that here.
+      else if($number == 2)
+        return true;
+      // Throw away all other even numbers.
+      else if($number %2 == 0)
+        return false;
 
-      // Start at 2 because 1 is not a prime.
-      $i = 2;
-
-      while($i <= $numOfPrimes)
+      // loop through all numbers that are less than or equal to half of this number.
+      for ($count = 2; $count <= $number / 2; $count++)
       {
-        // Basic checks first. If it is even but is not 2 itself, jump to next iteration as even numbers cannot be prime.
-        if ($i % 2 == 0 && $i != 2)
-          continue;
-
-        // loop through all numbers that are less than or equal to half of this number.
-        for ($count = 2; $count <= $i / 2; $count++) {
-          // If any of these divisions return a 0, its not prime, move to next iteration.
-          if ($i % $count == 0)
-            continue;
-        }
-
-        // For loop finished, if we made it this far it's a prime. Add it to the array.
-        $primes[] = $i;
+        // If any of these divisions return a 0, its not prime, move to next iteration.
+        if ($number % $count == 0)
+          return false;
       }
 
-      // Run finished, we should have all primes in this returned array now.
-      return $primes;
+      // We made it through all the checks, it must be a prime.
+      return true;
     }
 }
