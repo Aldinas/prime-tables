@@ -27,15 +27,17 @@ class PrimeController extends Controller
       // Send the data to the view.
       $data['numPrimes'] = $numOfPrimes;
       $data['primes'] = $primes;
-
       return view("primegrid", $data);
     }
 
     public function GetPrimeNumbers($numOfPrimes)
     {
+      // Broke this out for unit testing support.
       $primeCount = 0;
       $primes = [];
 
+      // Iterate through all numbers starting from 2 and see if we
+      // have a prime in there. If we do, add it to the prime array.
       for($i = 2; $primeCount < $numOfPrimes; $i++)
       {
         if($this->IsPrime($i))
@@ -44,6 +46,7 @@ class PrimeController extends Controller
         $primeCount = count($primes);
       }
 
+      // Return the prime array.
       return $primes;
     }
 
