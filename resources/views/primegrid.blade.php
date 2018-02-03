@@ -7,7 +7,7 @@
         <a href="{{ URL::previous() }}" class="btn btn-danger">Back</a>
       </div>
   </div>
-    <table class="table table-striped">
+    <table class="table table-striped table-hover table-condensed">
       <thead>
         <th><!--Leave Blank--></th>
         @foreach($primes as $prime)
