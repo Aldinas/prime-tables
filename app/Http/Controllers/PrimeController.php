@@ -17,14 +17,13 @@ class PrimeController extends Controller
     {
       // User has submitted the form, validate it.
       $request->validate([
-        'numberOfPrimes' => 'integer|min:1'
+        'numberOfPrimes' => 'integer|min:1|max:2000'
       ]);
 
       // Cache variables.
       $numOfPrimes = $request['numberOfPrimes'];
       $primeCount = 0;
       $primes = [];
-
 
       for($i = 2; $primeCount < $numOfPrimes; $i++)
       {
@@ -34,11 +33,10 @@ class PrimeController extends Controller
         $primeCount = count($primes);
       }
 
-      dd($primes);
-
+      $data['numPrimes'] = $numOfPrimes;
       $data['primes'] = $primes;
 
-      return view("primegrid");
+      return view("primegrid", $data);
     }
 
     function IsPrime($number)
