@@ -13,3 +13,4 @@
 
 // Main controller calls.
 Route::get('/' , 'PrimeController@Index');
+Route::post('/' , 'PrimeController@PrimeGrid');

@@ -15,8 +15,16 @@ class PrimeController extends Controller
 
     function PrimeGrid(Request $request)
     {
+      $request->validate([
+        'numberOfPrimes' => 'integer'
+      ]);
+
       // User has submitted the form, build the grid based on the provided argument.
       $primes = $this->GetPrimes($request['numberOfPrimes']);
+
+      $data['primes'] = $primes;
+
+      return view("primegrid", $data);
     }
 
     function GetPrimes($numOfPrimes)

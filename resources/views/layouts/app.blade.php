@@ -1,6 +1,8 @@
 <html>
 <head>
-  <title>App Name - @yield('title')</title>
+  <title>Prime Table</title>
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <script src="/js/bootstrap.js"></script>
 </head>
 <body>
 <div class="container">
