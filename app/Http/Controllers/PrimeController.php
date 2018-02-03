@@ -8,8 +8,6 @@ class PrimeController extends Controller
 {
     function Index()
     {
-      $data = [];
-
       return view("prime");
     }
 
@@ -22,6 +20,19 @@ class PrimeController extends Controller
 
       // Cache variables.
       $numOfPrimes = $request['numberOfPrimes'];
+
+      // Get a list of all primes.
+      $primes = $this->GetPrimeNumbers($numOfPrimes);
+
+      // Send the data to the view.
+      $data['numPrimes'] = $numOfPrimes;
+      $data['primes'] = $primes;
+
+      return view("primegrid", $data);
+    }
+
+    public function GetPrimeNumbers($numOfPrimes)
+    {
       $primeCount = 0;
       $primes = [];
 
@@ -33,13 +44,10 @@ class PrimeController extends Controller
         $primeCount = count($primes);
       }
 
-      $data['numPrimes'] = $numOfPrimes;
-      $data['primes'] = $primes;
-
-      return view("primegrid", $data);
+      return $primes;
     }
 
-    function IsPrime($number)
+    public function IsPrime($number)
     {
       // Confirm if a number is a prime or not. Returns boolean.
       // This shouldnt be possible, but adding a check for posterity.
